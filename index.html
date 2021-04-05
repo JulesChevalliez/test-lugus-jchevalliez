@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="md:h-full">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,44 +8,57 @@
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
     <link href="./css/style.css" rel="stylesheet">
 </head>
-<body>
-    <div id="app" class="mx-5">
-
-        <img src="https://lugus-hiring.frb.io/storage/shoes-red.png" class="mt-16">
-
-        <h2 class="text-center font-semibold text-4xl mt-10">Lugshoes</h2>
-
-        <div id="price" class="custom-dark text-white w-min px-3 py-1 rounded-lg mx-auto mt-2">120€</div>
-
-        <div id="colors" class="flex justify-between mt-10">
-            <div class="custom-green w-10 h-10 rounded-full"></div>
-            <div class="custom-blue w-10 h-10 rounded-full"></div>
-            <div class="custom-yellow w-10 h-10 rounded-full"></div>
-            <div class="custom-red w-10 h-10 rounded-full"></div>
+<body class="md:h-full">
+    <div id="app" class="mx-5 md:mx-20 xl:mx-40 md:h-full md:items-center md:content-center md:flex">
+        <div>
+            <div class="md:flex">
+                <div class="md:w-1/2 md:pr-2">
+                    <img src="https://lugus-hiring.frb.io/storage/shoes-red.png" class="mt-16 mx-auto">
+                </div>
+                
+                <div class="md:w-1/2 md:pl-2">
+                    <div class="md:flex">
+                        <h2 class="text-center font-semibold text-4xl mt-10 md:mt-0">Lugshoes</h2>
+                        
+                        <div id="price" class="custom-dark text-white font-semibold leading-8 w-min px-3 rounded-md mx-auto mt-2 md:mx-0 md:ml-4">120€</div> 
+                    </div>
+                    
+                    <div id="colors" class="flex justify-between mt-10 md:justify-start">
+                        <div class="custom-green w-10 h-10 rounded-full md:mr-10"></div>
+                        <div class="custom-blue w-10 h-10 rounded-full md:mr-10"></div>
+                        <div class="custom-yellow w-10 h-10 rounded-full md:mr-10"></div>
+                        <div class="custom-red w-10 h-10 rounded-full md:mr-10"></div>
+                    </div>
+                    
+                    <div class="flex flex-wrap justify-center mt-10 md:justify-start">
+                        <div class="shoes-size border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">42</div></div>
+                        <div class="shoes-size border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">43</div></div>
+                        <div class="shoes-size border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">44</div></div>
+                        <div class="shoes-size border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">45</div></div>
+                        <div class="shoes-size border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">46</div></div>
+                    </div>
+                    
+                    <p class="text-sm mt-10">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque gravida amet consectetur aliquet. 
+                        Diam nulla potenti cursus aenean aliquet ipsum nec sit ultrices. Quis ultrices non quam orci, mattis non.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="w-full mt-10 flex justify-center md:mt-20">
+                <button class="custom-green text-white text-center rounded-3xl h-14 w-full md:w-80">
+                    Add to cart
+                </button>
+            </div>
         </div>
-
-        <div class="flex flex-wrap justify-center mt-10">
-            <div class="border-black rounded-lg border-4 w-20 h-10 font-bold text-center items-center h-full mx-auto"><div class="p-1">42</div></div>
-            <div class="border-black rounded-lg border-4 w-20 h-10 font-bold text-center items-center h-full mx-auto"><div class="p-1">43</div></div>
-            <div class="border-black rounded-lg border-4 w-20 h-10 font-bold text-center items-center h-full mx-auto"><div class="p-1">44</div></div>
-            <div class="border-black rounded-lg border-4 w-20 h-10 font-bold text-center items-center h-full mx-auto"><div class="p-1">45</div></div>
-            <div class="border-black rounded-lg border-4 w-20 h-10 font-bold text-center items-center h-full mx-auto"><div class="p-1">46</div></div>
-        </div>
-
-        <p class="text-sm mt-10">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque gravida amet consectetur aliquet. 
-            Diam nulla potenti cursus aenean aliquet ipsum nec sit ultrices. Quis ultrices non quam orci, mattis non.
-        </p>
-
-        <button class="custom-green text-white text-center rounded-3xl h-14 w-full md:w-80 mt-10">
-            Add to cart
-        </button>
-
+        
+        
+        
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script>
         const app = new Vue({
-          el: '#app'
+            el: '#app'
         })
     </script>
 </body>

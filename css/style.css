@@ -31,3 +31,7 @@
 .custom-dark{
     background-color: var(--custom-dark);
 }
+
+.shoes-size{
+    border: 3px var(--custom-dark) solid;
+}
