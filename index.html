@@ -12,30 +12,31 @@
     <div id="app" class="mx-5 md:mx-20 xl:mx-40 md:h-full md:items-center md:content-center md:flex">
         <div>
             <div class="md:flex">
-                <div class="md:w-1/2 md:pr-2">
+                <div class="md:w-1/2 md:pr-10">
                     <img src="https://lugus-hiring.frb.io/storage/shoes-red.png" class="mt-16 mx-auto">
                 </div>
                 
-                <div class="md:w-1/2 md:pl-2">
+                <div class="md:w-1/2 md:pl-10">
                     <div class="md:flex">
-                        <h2 class="text-center font-semibold text-4xl mt-10 md:mt-0">Lugshoes</h2>
+                        <h2 class="text-center font-semibold text-4xl mt-10 md:mt-0">{{product.title}}</h2>
                         
                         <div id="price" class="custom-dark text-white font-semibold leading-8 w-min px-3 rounded-md mx-auto mt-2 md:mx-0 md:ml-4">120€</div> 
                     </div>
                     
                     <div id="colors" class="flex justify-between mt-10 md:justify-start">
-                        <div class="custom-green w-10 h-10 rounded-full md:mr-10"></div>
-                        <div class="custom-blue w-10 h-10 rounded-full md:mr-10"></div>
+                        <div id="1" @click="selectColor()" class="custom-green w-10 h-10 rounded-full md:mr-10"></div>
+                        <div @click="selectColor('custom-blue')" class="custom-blue w-10 h-10 rounded-full md:mr-10"></div>
                         <div class="custom-yellow w-10 h-10 rounded-full md:mr-10"></div>
                         <div class="custom-red w-10 h-10 rounded-full md:mr-10"></div>
                     </div>
                     
                     <div class="flex flex-wrap justify-center mt-10 md:justify-start">
-                        <div class="shoes-size border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">42</div></div>
-                        <div class="shoes-size border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">43</div></div>
-                        <div class="shoes-size border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">44</div></div>
-                        <div class="shoes-size border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">45</div></div>
-                        <div class="shoes-size border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">46</div></div>
+                        <div v-for="item in sizes" class="shoes-size-normal border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0">{{item}}</div>
+                        <!-- <div class="shoes-size-normal border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">42</div></div> -->
+                        <!-- <div class="shoes-size-selected border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">43</div></div> -->
+                        <!-- <div class="shoes-size-normal border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">44</div></div> -->
+                        <!-- <div class="shoes-size-disabled border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">45</div></div> -->
+                        <!-- <div class="shoes-size-normal border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">46</div></div> -->
                     </div>
                     
                     <p class="text-sm mt-10">
@@ -56,10 +57,43 @@
         
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         const app = new Vue({
-            el: '#app'
-        })
-    </script>
-</body>
-</html>
+            el: '#app',
+            data() {
+                return {
+                    product: [],
+                    sizes: []
+                }
+            },
+            methods: {
+                selectColor(color){
+                    console.log(color);
+                }
+            },
+            beforeMount() {
+                axios.get("https://lugus-hiring.frb.io/product", {
+                    method: "GET",
+                    headers: {
+                        Accept: "application/json",
+                        'Content-Type': "application/json"
+                    }
+                }).then(res => {
+                    this.product = res.data.product;
+                    this.product.variants.forEach(el => {
+                        this.sizes.push(el.size)
+                    });
+                    //Supprime les tailles en doublon pour boucler le bon nombre de pointures, peut importe le produit.
+                    this.sizes = [...new Set(this.sizes)];
+                    console.log(this.sizes);
+
+                });
+                
+                
+            }})
+            
+            
+        </script>
+    </body>
+    </html>

@@ -4,6 +4,7 @@
     --custom-yellow: #FFE380;
     --custom-red: #FF5858;
     --custom-dark: #142E2C;
+    --custom-gray: #D4D4D4;
   }
 
 @font-face {
@@ -32,6 +33,18 @@
     background-color: var(--custom-dark);
 }
 
-.shoes-size{
+.shoes-size-normal{
     border: 3px var(--custom-dark) solid;
+}
+.shoes-size-selected{
+    border: 3px var(--custom-dark) solid;
+    color: white;
+    background-color: var(--custom-dark);
+}
+.shoes-size-disabled{
+    border: 3px var(--custom-gray) solid;
+    color: var(--custom-gray);
+}
+
+.shoes-color-selected{
 }
