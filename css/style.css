@@ -1,0 +1,33 @@
+:root {
+    --custom-green: #65CA8D;
+    --custom-blue: #56AEFF;
+    --custom-yellow: #FFE380;
+    --custom-red: #FF5858;
+    --custom-dark: #142E2C;
+  }
+
+@font-face {
+    font-family: "Poppins";
+    src: local("Poppins"),
+     url(../fonts/Poppins-Regular.ttf) format("truetype");
+}
+
+* {
+    font-family: 'Poppins';
+}
+
+.custom-green{
+    background-color: var(--custom-green);
+}
+.custom-blue{
+    background-color: var(--custom-blue);
+}
+.custom-yellow{
+    background-color: var(--custom-yellow);
+}
+.custom-red{
+    background-color: var(--custom-red);
+}
+.custom-dark{
+    background-color: var(--custom-dark);
+}
