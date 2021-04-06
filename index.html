@@ -47,11 +47,8 @@
                 </button>
             </div>
         </div> 
-        
-        
-        
-        
     </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
@@ -68,7 +65,6 @@
                     inputSelected: {'size': null, 'color': null},
                     shoesImageSrc: "",
                     toggleSubmit: true
-                    
                 }
             },
             methods: {
@@ -76,8 +72,6 @@
                     this.disabled = [];
                     this.inputSelected.color = item;
                     this.shoesImageSrc = "https://lugus-hiring.frb.io/storage/shoes-"+item+".png";
-
-                
 
                     let sizesDisabled = document.querySelectorAll(".shoes-size-disabled");
                     sizesDisabled.forEach(el => {
@@ -105,7 +99,6 @@
                     this.price = this.prices[size]
                     this.inputSelected.size = size;
 
-
                     let previousSelected = document.querySelector('.shoes-size-selected');
                     let previousDisabledSelected = document.querySelector('.shoes-size-disabled-selected');
 
@@ -115,9 +108,9 @@
                             previousSelected.classList.remove('shoes-size-selected');
                         }else if(previousDisabledSelected != null){
                             previousDisabledSelected.classList.remove('shoes-size-disabled-selected');
-                        }
-                        
+                        }                        
                         document.getElementById("size"+size).classList.add("shoes-size-disabled-selected");
+                        
                     }else{//Clique sur une size pas disabled
                         this.toggleSubmit = true;
                         if(previousSelected != null){
@@ -143,8 +136,7 @@
                     if(idVariant == ""){
                         alert("Veuillez sélectionner un pointure");
                     }
-                    console.log(idVariant);
-                    /* axios.post("https://lugus-hiring.frb.io/cart/add", {
+                    axios.post("https://lugus-hiring.frb.io/cart/add", {
                         variant_id: idVariant,
                         quantity: 1
                         
@@ -153,7 +145,7 @@
                     })
                     .catch(function (error) {
                         console.log(error);
-                    }); */
+                    });
                 }
             },
             beforeMount() {
@@ -188,9 +180,7 @@
                     
                 })
             },
-        })
-        
-        
+        })    
     </script>
 </body>
 </html>
