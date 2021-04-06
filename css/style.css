@@ -17,19 +17,19 @@
     font-family: 'Poppins';
 }
 
-.custom-green{
+.custom-bg-green{
     background-color: var(--custom-green);
 }
-.custom-blue{
+.custom-bg-blue{
     background-color: var(--custom-blue);
 }
-.custom-yellow{
+.custom-bg-yellow{
     background-color: var(--custom-yellow);
 }
-.custom-red{
+.custom-bg-red{
     background-color: var(--custom-red);
 }
-.custom-dark{
+.custom-bg-dark{
     background-color: var(--custom-dark);
 }
 
@@ -44,7 +44,18 @@
 .shoes-size-disabled{
     border: 3px var(--custom-gray) solid;
     color: var(--custom-gray);
+    pointer-events: none;
 }
 
-.shoes-color-selected{
+.custom-border-green{
+    border: 10px solid var(--custom-green);
+}
+.custom-border-blue{
+    border: 10px solid var(--custom-blue);
+}
+.custom-border-yellow{
+    border: 10px solid var(--custom-yellow);
+}
+.custom-border-red{
+    border: 10px solid var(--custom-red);
 }
