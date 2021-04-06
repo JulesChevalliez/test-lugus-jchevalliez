@@ -25,139 +25,172 @@
                     
                     <div id="colors" class="flex justify-between mt-10 md:justify-start">
                         <div v-for="item in colors"  @click="selectColor(item)"  :class="[inputSelected.color == item ? 'custom-border-'+item : 'custom-bg-'+item]" class="w-10 h-10 rounded-full md:mr-10"></div>
-                        <!-- <div @click="selectColor('custom-blue')" class="custom-blue w-10 h-10 rounded-full md:mr-10"></div>
-                            <div class="custom-yellow w-10 h-10 rounded-full md:mr-10"></div>
-                            <div class="custom-red w-10 h-10 rounded-full md:mr-10"></div> -->
-                        </div>
-                        
-                        <div class="flex flex-wrap justify-center mt-10 md:justify-start">
-                            
-                            
-                            
-                            <div v-for="item in sizes" :id="'size'+item" @click="selectSize(item)" :class="[inputSelected.size == item ? 'shoes-size-selected' : 'shoes-size-normal']" class=" rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0">{{item}}</div>
-                            
-                            
-                            <!-- <div class="shoes-size-normal border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">42</div></div> -->
-                            <!-- <div class="shoes-size-selected border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">43</div></div> -->
-                            <!-- <div class="shoes-size-normal border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">44</div></div> -->
-                            <!-- <div class="shoes-size-disabled border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">45</div></div> -->
-                            <!-- <div class="shoes-size-normal border-black rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0"><div class="">46</div></div> -->
-                        </div>
-                        
-                        <p class="text-sm mt-10">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque gravida amet consectetur aliquet. 
-                            Diam nulla potenti cursus aenean aliquet ipsum nec sit ultrices. Quis ultrices non quam orci, mattis non.
-                        </p>
                     </div>
-                </div>
-                
-                <div class="w-full mt-10 flex justify-center md:mt-20">
-                    <button type="submit" @click="sendCart()" class="custom-bg-green text-white text-center rounded-3xl h-14 w-full md:w-80">
-                        Add to cart
-                    </button>
-                </div>
-            </div> 
-            
-            
-            
-            
-        </div>
-        <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script>
-            const app = new Vue({
-                el: '#app',
-                data() {
-                    return {
-                        product: [],
-                        sizes: [],//Permets d'afficher dynamiquement les tailles
-                        colors: [],
-                        prices: [],
-                        price: [],
-                        inputSelected: {'size': null, 'color': null},
-                        shoesImageSrc: ""
-                        
-                    }
-                },
-                methods: {
-                    selectColor(item){
-                        this.inputSelected.color = item;
-                        this.shoesImageSrc = "https://lugus-hiring.frb.io/storage/shoes-"+item+".png";
-                        let sizesDisabled = document.querySelectorAll(".shoes-size-disabled");
-                        sizesDisabled.forEach(el => {
-                            el.classList.remove("shoes-size-disabled");
-                            el.classList.add("shoes-size-normal");
-                        });
-                        this.product.variants.forEach(el => {
-                            if(el.color == item){
-                                if(el.quantity < 1){
-                                    let sizeToDisable = el.size;
-                                    document.getElementById("size"+sizeToDisable).classList.remove("shoes-size-normal");
-                                    document.getElementById("size"+sizeToDisable).classList.add("shoes-size-disabled");
-                                }
-                            }
-                        });
-                    },
-                    selectSize(size){
-                        this.price = this.prices[size]
-                        this.inputSelected.size = size;
-                        let selectedSize = document.querySelector('.shoes-size-selected');
-                        console.log(selectedSize);
-                        selectedSize.classList.remove('shoes-size-selected');
-                        selectedSize.classList.add('shoes-size-normal');
-                    },
-                    sendCart(){
-                        let idVariant = ""
-                        this.product.variants.forEach(el => {
-                            if(el.size == this.inputSelected.size){
-                                if(el.color == this.inputSelected.color){
-                                    idVariant = el.id
-                                }
-                            }
-                        });
-                        console.log(idVariant);
-                        axios.post("https://lugus-hiring.frb.io/cart/add", {
-                            variant_id: idVariant,
-                            quantity: 1
-                            
-                        }).then(function (response) {
-                            console.log(response);
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                    }
-                },
-                beforeMount() {
                     
-                    axios.get("https://lugus-hiring.frb.io/product", {
-                        method: "GET",
-                        headers: {
-                            Accept: "application/json",
-                            'Content-Type': "application/json"
-                        }
-                    }).then(res => {
-                        this.product = res.data.product;
-                        this.product.variants.forEach(el => {
-                            this.sizes.push(el.size)
-                            this.colors.push(el.color)
-                            this.prices[el.size] = el.price;
-                        })
-                        //Supprime les tailles en doublon pour boucler le bon nombre de pointures, peut importe le produit.
-                        this.sizes = [...new Set(this.sizes)];
-                        this.colors = [...new Set(this.colors)];
-                        this.shoesImageSrc = "https://lugus-hiring.frb.io/storage/shoes-"+this.colors[0]+".png";
-                        this.inputSelected.color = this.colors[0];
-                        this.price = this.prices[this.sizes[0]];
-                        
-                        
-                    })
-                },
-                mounted() {                      
+                    <div class="flex flex-wrap justify-center mt-10 md:justify-start">
+                        <div v-for="item in sizes" :id="'size'+item" @click="selectSize(item)"  :class="[disabled[item] ? 'shoes-size-disabled' : '']" class="shoes-size-normal rounded-md w-16 h-10 mt-2 mr-2 ml-2 font-bold text-center items-center h-full md:mr-5 md:mx-0">{{item}}</div>
+                    </div>
+                    
+                    <p class="text-sm mt-10">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque gravida amet consectetur aliquet. 
+                        Diam nulla potenti cursus aenean aliquet ipsum nec sit ultrices. Quis ultrices non quam orci, mattis non.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="w-full mt-10 flex justify-center md:mt-20">
+                <button v-if="toggleSubmit" type="submit" @click="sendCart()" class="custom-bg-green text-white text-center rounded-3xl h-14 w-full md:w-80">
+                    <span>Add to cart</span>
+                </button>
+                <button v-if="!toggleSubmit" class="pointer-events-none	custom-bg-gray text-white text-center rounded-3xl h-14 w-full md:w-80">
+                    Out of stock
+                </button>
+            </div>
+        </div> 
+        
+        
+        
+        
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    product: [],
+                    sizes: [],//Permets d'afficher dynamiquement les tailles
+                    disabled: [],
+                    colors: [],
+                    prices: [],
+                    price: [],
+                    inputSelected: {'size': null, 'color': null},
+                    shoesImageSrc: "",
+                    toggleSubmit: true
+                    
                 }
-            })
-            
-            
-        </script>
-    </body>
-    </html>
+            },
+            methods: {
+                selectColor(item){
+                    this.disabled = [];
+                    this.inputSelected.color = item;
+                    this.shoesImageSrc = "https://lugus-hiring.frb.io/storage/shoes-"+item+".png";
+
+                
+
+                    let sizesDisabled = document.querySelectorAll(".shoes-size-disabled");
+                    sizesDisabled.forEach(el => {
+                        el.classList.remove("shoes-size-disabled");
+                        el.classList.add("shoes-size-normal");
+                    });
+
+                    this.product.variants.forEach(el => {
+                        if(el.color == item){
+                            if(el.quantity < 1){
+                                this.disabled[el.size] = el.size;
+                                let sizeToDisable = el.size;
+                                document.getElementById("size"+sizeToDisable).classList.remove("shoes-size-normal");
+                                document.getElementById("size"+sizeToDisable).classList.add("shoes-size-disabled");
+                                if(this.inputSelected.size == sizeToDisable){
+                                    this.inputSelected.size = null;
+                                }
+                            }
+                        }
+                    });
+
+                },
+                
+                selectSize(size){
+                    this.price = this.prices[size]
+                    this.inputSelected.size = size;
+
+
+                    let previousSelected = document.querySelector('.shoes-size-selected');
+                    let previousDisabledSelected = document.querySelector('.shoes-size-disabled-selected');
+
+                    if(this.disabled[size] != null){//Clique sur une size disabled
+                        this.toggleSubmit = false;
+                        if(previousSelected != null){
+                            previousSelected.classList.remove('shoes-size-selected');
+                        }else if(previousDisabledSelected != null){
+                            previousDisabledSelected.classList.remove('shoes-size-disabled-selected');
+                        }
+                        
+                        document.getElementById("size"+size).classList.add("shoes-size-disabled-selected");
+                    }else{//Clique sur une size pas disabled
+                        this.toggleSubmit = true;
+                        if(previousSelected != null){
+                            previousSelected.classList.remove('shoes-size-selected');
+                        }else if(previousDisabledSelected != null){
+                            previousDisabledSelected.classList.remove('shoes-size-disabled-selected');
+                        }
+                        document.getElementById("size"+size).classList.add("shoes-size-selected");
+                    }
+                },
+                
+                sendCart(){
+                    console.log(this.inputSelected.size);
+                    let idVariant = ""
+                    this.product.variants.forEach(el => {
+                        if(el.color == this.inputSelected.color){
+                            if(el.size == this.inputSelected.size){
+                                idVariant = el.id
+                            }
+                        }
+                    });
+
+                    if(idVariant == ""){
+                        alert("Veuillez sélectionner un pointure");
+                    }
+                    console.log(idVariant);
+                    /* axios.post("https://lugus-hiring.frb.io/cart/add", {
+                        variant_id: idVariant,
+                        quantity: 1
+                        
+                    }).then(function (response) {
+                        console.log(response);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    }); */
+                }
+            },
+            beforeMount() {
+                
+                axios.get("https://lugus-hiring.frb.io/product", {
+                    method: "GET",
+                    headers: {
+                        Accept: "application/json",
+                        'Content-Type': "application/json"
+                    }
+                }).then(res => {
+                    this.product = res.data.product;
+                    this.product.variants.forEach(el => {
+                        this.sizes.push(el.size)
+                        this.colors.push(el.color)
+                        this.prices[el.size] = el.price;
+                    });
+                    this.product.variants.forEach(el => {
+                        if(el.color == this.colors[0]){
+                            if(el.quantity < 1 ){
+                                this.disabled[el.size] = el.size;
+                            }
+                        }
+                    });
+                    
+                    this.sizes = [...new Set(this.sizes)];//Supprime les tailles en doublon pour boucler le bon nombre de pointures, peut importe le produit.
+                    this.colors = [...new Set(this.colors)];
+                    this.shoesImageSrc = "https://lugus-hiring.frb.io/storage/shoes-"+this.colors[0]+".png";
+                    this.inputSelected.color = this.colors[0];
+                    this.price = this.prices[this.sizes[0]];
+                    
+                    
+                })
+            },
+        })
+        
+        
+    </script>
+</body>
+</html>
