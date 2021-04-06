@@ -40,15 +40,18 @@
             
             <div class="w-full mt-10 flex justify-center md:mt-20">
                 <button v-if="toggleSubmit" type="submit" @click="sendCart()" class="custom-bg-green text-white text-center rounded-3xl h-14 w-full md:w-80">
-                    <span>Add to cart</span>
+                    <div>{{addToCart}}</div>
                 </button>
                 <button v-if="!toggleSubmit" class="pointer-events-none	custom-bg-gray text-white text-center rounded-3xl h-14 w-full md:w-80">
                     Out of stock
                 </button>
             </div>
         </div> 
+        
+        
+        
+        
     </div>
-    
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
@@ -64,12 +67,14 @@
                     price: [],
                     inputSelected: {'size': null, 'color': null},
                     shoesImageSrc: "",
-                    toggleSubmit: true
+                    toggleSubmit: true,
+                    addToCart: "Add to cart"
                 }
             },
             methods: {
                 selectColor(item){
                     this.disabled = [];
+                    this.addToCart = "Add to cart";
                     this.inputSelected.color = item;
                     this.shoesImageSrc = "https://lugus-hiring.frb.io/storage/shoes-"+item+".png";
 
@@ -98,6 +103,7 @@
                 selectSize(size){
                     this.price = this.prices[size]
                     this.inputSelected.size = size;
+                    this.addToCart = "Add to cart";
 
                     let previousSelected = document.querySelector('.shoes-size-selected');
                     let previousDisabledSelected = document.querySelector('.shoes-size-disabled-selected');
@@ -108,9 +114,8 @@
                             previousSelected.classList.remove('shoes-size-selected');
                         }else if(previousDisabledSelected != null){
                             previousDisabledSelected.classList.remove('shoes-size-disabled-selected');
-                        }                        
+                        }
                         document.getElementById("size"+size).classList.add("shoes-size-disabled-selected");
-                        
                     }else{//Clique sur une size pas disabled
                         this.toggleSubmit = true;
                         if(previousSelected != null){
@@ -123,7 +128,6 @@
                 },
                 
                 sendCart(){
-                    console.log(this.inputSelected.size);
                     let idVariant = ""
                     this.product.variants.forEach(el => {
                         if(el.color == this.inputSelected.color){
@@ -140,10 +144,11 @@
                         variant_id: idVariant,
                         quantity: 1
                         
-                    }).then(function (response) {
-                        console.log(response);
+                    }).then(res => {
+                        this.addToCart = 'Added to cart';
+                        console.log(this.addToCart);
                     })
-                    .catch(function (error) {
+                    .catch(error => {
                         console.log(error);
                     });
                 }
@@ -176,11 +181,11 @@
                     this.shoesImageSrc = "https://lugus-hiring.frb.io/storage/shoes-"+this.colors[0]+".png";
                     this.inputSelected.color = this.colors[0];
                     this.price = this.prices[this.sizes[0]];
-                    
-                    
                 })
             },
-        })    
+        })
+        
+        
     </script>
 </body>
 </html>
