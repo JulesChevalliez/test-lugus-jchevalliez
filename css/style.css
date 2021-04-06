@@ -44,7 +44,6 @@
 .shoes-size-disabled{
     border: 3px var(--custom-gray) solid;
     color: var(--custom-gray);
-    pointer-events: none;
 }
 
 .custom-border-green{
